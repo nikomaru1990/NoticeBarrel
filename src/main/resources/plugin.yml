@@ -1,0 +1,4 @@
+name: NoticeBarrel
+version: '${version}'
+main: com.noticemc.noticebarrel.NoticeBarrel
+api-version: 1.17
