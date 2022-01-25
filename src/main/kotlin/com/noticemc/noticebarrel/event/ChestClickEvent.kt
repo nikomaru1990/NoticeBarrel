@@ -17,6 +17,7 @@
 package com.noticemc.noticebarrel.event
 
 import com.noticemc.noticebarrel.commands.CommandManager
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Barrel
 import org.bukkit.block.Chest
@@ -28,28 +29,22 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 
-
 internal class ChestClickEvent : Listener {
 
     @EventHandler
     fun chestClickEvent(event: PlayerInteractEvent) {
         val player: Player = event.player
-        if (CommandManager.canChangeBarrel[player.uniqueId] == null || CommandManager.canChangeBarrel[player.uniqueId] == false) {
+        val clickedBlock = event.clickedBlock ?: return
+        if (CommandManager.canChangeBarrel[player.uniqueId] == null || CommandManager.canChangeBarrel[player.uniqueId] == false
+            || clickedBlock.type != Material.CHEST || event.action == Action.RIGHT_CLICK_BLOCK) {
             return
         }
-        if (event.clickedBlock == null) {
-            return
-        }
-        if (event.clickedBlock!!.type != Material.CHEST) {
-            return
-        }
-        if (event.action == Action.RIGHT_CLICK_BLOCK) {
-            return
-        }
-        val chestInventory: Inventory = (event.clickedBlock!!.state as Chest).blockInventory
-        val items: Array<out ItemStack?> = chestInventory.contents
-        event.clickedBlock!!.type = Material.BARREL
-        val barrel: Barrel = (event.clickedBlock!!.state as Barrel)
+
+        val chestInventory: Inventory = (clickedBlock.state as Chest).blockInventory
+        val items: Array<out ItemStack?>? = chestInventory.contents
+        val locate: Location = clickedBlock.location
+        clickedBlock.type = Material.BARREL
+        val barrel: Barrel = (locate.block.state as Barrel)
         barrel.inventory.contents = items
     }
 }
