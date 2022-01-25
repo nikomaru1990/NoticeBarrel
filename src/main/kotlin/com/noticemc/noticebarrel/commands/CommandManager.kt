@@ -26,7 +26,7 @@ import kotlin.collections.HashMap
 
 class CommandManager : BaseCommand() {
 
-    @CommandPermission("changeBarrel")
+    @CommandPermission("NoticeBarrel.changeBarrel")
     @CommandAlias("cb|changeBarrel")
     fun enableChangeBarrel(sender:CommandSender) {
         val player: Player = sender as Player
