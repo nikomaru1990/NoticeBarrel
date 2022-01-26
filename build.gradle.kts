@@ -15,13 +15,15 @@ repositories {
     maven ("https://oss.sonatype.org/content/groups/public/")
     maven ("https://repo.aikar.co/content/groups/aikar/")
     maven ("https://jitpack.io")
+    maven ("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
-    implementation("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT")
-    implementation("com.github.TechFortress:GriefPrevention:16.17.1")
+    compileOnly("com.github.TechFortress:GriefPrevention:16.18-RC1")
+    implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
 }
 
 java {

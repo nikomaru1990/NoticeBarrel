@@ -25,6 +25,11 @@ import org.bukkit.plugin.java.JavaPlugin
 class NoticeBarrel : JavaPlugin() {
     override fun onEnable() {
         // Plugin startup logic
+        if (!server.pluginManager.isPluginEnabled("GriefPrevention")) {
+            logger.severe("GriefPrevention not found!")
+            server.pluginManager.disablePlugin(this)
+            return
+        }
         plugin = this
         val manager =PaperCommandManager(this)
         manager.registerCommand(CommandManager())

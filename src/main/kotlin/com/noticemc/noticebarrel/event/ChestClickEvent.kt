@@ -17,6 +17,9 @@
 package com.noticemc.noticebarrel.event
 
 import com.noticemc.noticebarrel.commands.CommandManager
+import me.ryanhamshire.GriefPrevention.ClaimPermission
+import me.ryanhamshire.GriefPrevention.GriefPrevention
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Barrel
@@ -36,10 +39,15 @@ internal class ChestClickEvent : Listener {
         val player: Player = event.player
         val clickedBlock = event.clickedBlock ?: return
         if (CommandManager.canChangeBarrel[player.uniqueId] == null || CommandManager.canChangeBarrel[player.uniqueId] == false
-            || clickedBlock.type != Material.CHEST || event.action == Action.RIGHT_CLICK_BLOCK) {
+            || clickedBlock.type != Material.CHEST || event.action == Action.RIGHT_CLICK_BLOCK
+        ) {
             return
         }
-
+        if (GriefPrevention.instance?.dataStore?.getClaimAt(clickedBlock.location, true, null)?.
+            hasExplicitPermission(player, ClaimPermission.Build) != true && !player.hasPermission("NoticeBarrel.admin")) {
+            player.sendMessage(MiniMessage.get().parse("<red>You don't have permission to change this chest."))
+            return
+        }
         val chestInventory: Inventory = (clickedBlock.state as Chest).blockInventory
         val items: Array<out ItemStack?>? = chestInventory.contents
         val locate: Location = clickedBlock.location
