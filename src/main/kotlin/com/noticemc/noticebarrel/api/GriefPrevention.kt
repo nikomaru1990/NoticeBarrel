@@ -22,7 +22,7 @@ import me.ryanhamshire.GriefPrevention.GriefPrevention
 
 object GriefPrevention {
 
-    fun GriefPreventionAPI(): DataStore? {
+    fun griefPreventionAPI(): DataStore? {
         if (Config.config?.node("plugin", "griefPrevention")?.boolean == true){
             return GriefPrevention.instance?.dataStore
         }

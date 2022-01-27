@@ -44,8 +44,8 @@ internal class ChestClickEvent : Listener {
             return
         }
 
-        if(GriefPrevention.GriefPreventionAPI() != null) {
-            if (GriefPrevention.GriefPreventionAPI()!!.getClaimAt(clickedBlock.location, true, null)
+        if(GriefPrevention.griefPreventionAPI() != null) {
+            if (GriefPrevention.griefPreventionAPI()!!.getClaimAt(clickedBlock.location, true, null)
                     ?.hasExplicitPermission(player, ClaimPermission.Build) != true && !player.hasPermission("NoticeBarrel.admin")) {
                 player.sendMessage(MiniMessage.get().parse("<red>You don't have permission to change this chest."))
                 return
