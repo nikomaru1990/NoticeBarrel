@@ -16,6 +16,9 @@ repositories {
     maven ("https://repo.aikar.co/content/groups/aikar/")
     maven ("https://jitpack.io")
     maven ("https://oss.sonatype.org/content/repositories/snapshots/")
+    maven("https://repo.codemc.io/repository/maven-public/")
+    maven("https://repo.onarandombox.com/content/groups/public/")
+    maven("https://repo.minebench.de/")
 }
 
 dependencies {
@@ -24,6 +27,9 @@ dependencies {
     implementation("co.aikar:acf-paper:0.5.0-SNAPSHOT")
     compileOnly("com.github.TechFortress:GriefPrevention:16.18-RC1")
     implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
+    compileOnly("org.maxgamer:QuickShop:6.0.0.0-BETA-20220126.084450-1")
+    implementation("org.spongepowered:configurate-hocon:4.1.2")
+    implementation("org.spongepowered:configurate-extra-kotlin:4.1.2")
 }
 
 java {

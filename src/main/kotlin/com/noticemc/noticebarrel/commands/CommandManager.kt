@@ -19,15 +19,18 @@ package com.noticemc.noticebarrel.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Subcommand
+import com.noticemc.noticebarrel.files.Config
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 import kotlin.collections.HashMap
 
+@CommandAlias("nb|NoticeBarrel")
 class CommandManager : BaseCommand() {
 
     @CommandPermission("NoticeBarrel.changeBarrel")
-    @CommandAlias("cb|changeBarrel")
+    @Subcommand("change")
     fun enableChangeBarrel(sender:CommandSender) {
         val player: Player = sender as Player
         if(canChangeBarrel[player.uniqueId] == null || canChangeBarrel[player.uniqueId] == false) {
@@ -37,6 +40,13 @@ class CommandManager : BaseCommand() {
             canChangeBarrel[player.uniqueId] = false
             player.sendMessage("ChangeBarrelモードを無効にしました")
         }
+    }
+
+    @CommandPermission("NoticeBarrel.reload")
+    @Subcommand("reload")
+    fun reload(sender: CommandSender) {
+        sender.sendMessage("NoticeBarrelを再読み込みしました")
+        Config.load()
     }
 
     companion object {

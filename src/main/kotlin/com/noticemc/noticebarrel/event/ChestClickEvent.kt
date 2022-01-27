@@ -16,9 +16,10 @@
 
 package com.noticemc.noticebarrel.event
 
+import com.noticemc.noticebarrel.api.GriefPrevention
+import com.noticemc.noticebarrel.api.QuickShop
 import com.noticemc.noticebarrel.commands.CommandManager
 import me.ryanhamshire.GriefPrevention.ClaimPermission
-import me.ryanhamshire.GriefPrevention.GriefPrevention
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Location
 import org.bukkit.Material
@@ -39,15 +40,25 @@ internal class ChestClickEvent : Listener {
         val player: Player = event.player
         val clickedBlock = event.clickedBlock ?: return
         if (CommandManager.canChangeBarrel[player.uniqueId] == null || CommandManager.canChangeBarrel[player.uniqueId] == false
-            || clickedBlock.type != Material.CHEST || event.action == Action.RIGHT_CLICK_BLOCK
-        ) {
+            || clickedBlock.type != Material.CHEST || event.action == Action.RIGHT_CLICK_BLOCK) {
             return
         }
-        if (GriefPrevention.instance?.dataStore?.getClaimAt(clickedBlock.location, true, null)?.
-            hasExplicitPermission(player, ClaimPermission.Build) != true && !player.hasPermission("NoticeBarrel.admin")) {
-            player.sendMessage(MiniMessage.get().parse("<red>You don't have permission to change this chest."))
-            return
+
+        if(GriefPrevention.GriefPreventionAPI() != null) {
+            if (GriefPrevention.GriefPreventionAPI()!!.getClaimAt(clickedBlock.location, true, null)
+                    ?.hasExplicitPermission(player, ClaimPermission.Build) != true && !player.hasPermission("NoticeBarrel.admin")) {
+                player.sendMessage(MiniMessage.get().parse("<red>You don't have permission to change this chest."))
+                return
+            }
         }
+
+        if (QuickShop.getQuickShopAPI() != null) {
+            if (QuickShop.getQuickShopAPI()!!.shopManager.getShop(clickedBlock.location) != null) {
+                player.sendMessage(MiniMessage.get().parse("<red>You can't change this shop  chest."))
+                return
+            }
+        }
+
         val chestInventory: Inventory = (clickedBlock.state as Chest).blockInventory
         val items: Array<out ItemStack?>? = chestInventory.contents
         val locate: Location = clickedBlock.location
