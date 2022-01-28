@@ -26,7 +26,7 @@ class ChestBreakEvent : Listener {
     @EventHandler
     fun onChestBreak(event: BlockBreakEvent) {
         if (CommandManager.canChangeBarrel[event.player.uniqueId] != true) return
-        if (event.block.type == Material.CHEST || event.block.type == Material.TRAPPED_CHEST || event.block.type == Material.BARREL) {
+        if (event.block.type == Material.CHEST || event.block.type == Material.TRAPPED_CHEST) {
             event.isCancelled = true
         }
     }

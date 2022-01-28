@@ -48,7 +48,7 @@ class ChestClickEvent : Listener {
         }
         val clickedBlock = event.clickedBlock ?: return
 
-        if (clickedBlock.type != Material.CHEST && clickedBlock.type != Material.BARREL && clickedBlock.type != Material.TRAPPED_CHEST) {
+        if (clickedBlock.type != Material.CHEST && clickedBlock.type != Material.TRAPPED_CHEST) {
             return
         }
 
@@ -86,18 +86,6 @@ class ChestClickEvent : Listener {
             (afterBlockData as Directional).facing = getRightDirection(direction)
             afterBlock.blockData = afterBlockData
 
-        } else if (clickedBlock.type == Material.BARREL) {
-            val barrelInventory: Inventory = (clickedBlock.state as Barrel).inventory
-            val items: Array<out ItemStack?>? = barrelInventory.contents
-
-            locate.block.type = Material.CHEST
-            val chest: Chest = (locate.block.state as Chest)
-            val afterBlock = locate.block
-            val afterBlockData = afterBlock.blockData
-            chest.inventory.contents = items
-
-            (afterBlockData as Directional).facing = getRightDirection(direction)
-            afterBlock.blockData = afterBlockData
         }
     }
 
