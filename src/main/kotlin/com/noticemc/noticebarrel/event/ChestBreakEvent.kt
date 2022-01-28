@@ -14,17 +14,20 @@
  *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.noticemc.noticebarrel.api
+package com.noticemc.noticebarrel.event
 
-import com.noticemc.noticebarrel.files.Config
-import org.bukkit.Bukkit
-import org.maxgamer.quickshop.api.QuickShopAPI
+import com.noticemc.noticebarrel.commands.CommandManager
+import org.bukkit.Material
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.block.BlockBreakEvent
 
-object QuickShop {
-    fun getQuickShopAPI(): QuickShopAPI? {
-        if (Config.config?.node("plugin", "quickShop")?.boolean == true) {
-            return Bukkit.getPluginManager().getPlugin("QuickShop") as QuickShopAPI
+class ChestBreakEvent : Listener {
+    @EventHandler
+    fun onChestBreak(event: BlockBreakEvent) {
+        if (CommandManager.canChangeBarrel[event.player.uniqueId] != true) return
+        if (event.block.type == Material.CHEST || event.block.type == Material.TRAPPED_CHEST || event.block.type == Material.BARREL) {
+            event.isCancelled = true
         }
-        return null
     }
 }

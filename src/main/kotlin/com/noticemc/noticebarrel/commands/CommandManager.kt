@@ -24,19 +24,18 @@ import com.noticemc.noticebarrel.files.Config
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
-import kotlin.collections.HashMap
 
 @CommandAlias("nb|NoticeBarrel")
 class CommandManager : BaseCommand() {
 
     @CommandPermission("NoticeBarrel.changeBarrel")
     @Subcommand("change")
-    fun enableChangeBarrel(sender:CommandSender) {
+    fun enableChangeBarrel(sender: CommandSender) {
         val player: Player = sender as Player
-        if(canChangeBarrel[player.uniqueId] == null || canChangeBarrel[player.uniqueId] == false) {
+        if (canChangeBarrel[player.uniqueId] == null || canChangeBarrel[player.uniqueId] == false) {
             canChangeBarrel[player.uniqueId] = true
             player.sendMessage("ChangeBarrelモードが有効です")
-        }else {
+        } else {
             canChangeBarrel[player.uniqueId] = false
             player.sendMessage("ChangeBarrelモードを無効にしました")
         }

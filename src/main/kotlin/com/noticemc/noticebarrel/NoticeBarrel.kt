@@ -18,6 +18,7 @@ package com.noticemc.noticebarrel
 
 import co.aikar.commands.PaperCommandManager
 import com.noticemc.noticebarrel.commands.CommandManager
+import com.noticemc.noticebarrel.event.ChestBreakEvent
 import com.noticemc.noticebarrel.event.ChestClickEvent
 import com.noticemc.noticebarrel.files.Config
 import org.bukkit.Bukkit
@@ -28,14 +29,14 @@ class NoticeBarrel : JavaPlugin() {
         // Plugin startup logic
         plugin = this
         Config.load()
-        if(Config.config?.node("plugin" , "griefPrevention")?.boolean == true) {
+        if (Config.config?.node("plugin", "griefPrevention")?.boolean == true) {
             if (!server.pluginManager.isPluginEnabled("GriefPrevention")) {
                 logger.severe("GriefPrevention not found!")
                 server.pluginManager.disablePlugin(this)
                 return
             }
         }
-        if(Config.config?.node("plugin" , "quickShop")?.boolean == true) {
+        if (Config.config?.node("plugin", "quickShop")?.boolean == true) {
             if (!server.pluginManager.isPluginEnabled("QuickShop")) {
                 logger.severe("QuickShop not found!")
                 server.pluginManager.disablePlugin(this)
@@ -43,15 +44,17 @@ class NoticeBarrel : JavaPlugin() {
             }
         }
 
-        val manager =PaperCommandManager(this)
+        val manager = PaperCommandManager(this)
         manager.registerCommand(CommandManager())
-        Bukkit.getPluginManager().registerEvents(ChestClickEvent(),this)
+        Bukkit.getPluginManager().registerEvents(ChestClickEvent(), this)
+        Bukkit.getPluginManager().registerEvents(ChestBreakEvent(), this)
     }
 
     override fun onDisable() {
         // Plugin shutdown logic
     }
-    companion object{
-        var plugin :NoticeBarrel? = null
+
+    companion object {
+        var plugin: NoticeBarrel? = null
     }
 }
