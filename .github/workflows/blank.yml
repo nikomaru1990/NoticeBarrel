@@ -21,9 +21,9 @@ jobs:
       - name: change plugin.yml version
         run: |
           before=${{ steps.tag_version.outputs.new_tag }}
-          echo ${before//v*/}
+          echo $before
           afetr=${before//v*/}
-          sed -i 's/${version}/${after}/g' src/main/resources/plugin.yml
+          sed -i 's/${version}//g' src/main/resources/plugin.yml
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
       - name: Build with Gradle
