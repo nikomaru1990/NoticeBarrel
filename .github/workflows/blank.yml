@@ -22,7 +22,7 @@ jobs:
         run: |
           before="${{ steps.tag_version.outputs.new_tag }}"
           echo $before
-          after="${${before}//v*/}"
+          after="${before//v/}"
           echo $after
           sed -i 's/${version}/${after}/g' src/main/resources/plugin.yml
       - name: Change wrapper permissions
