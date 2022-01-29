@@ -24,7 +24,7 @@ jobs:
           echo $before
           after="${before//v/}"
           echo $after
-          sed -e "s/${version}/$after/i" 'src/main/resources/plugin.yml'
+          sed -e "s/\${version}/$after/i" 'src/main/resources/plugin.yml'
           cat 'src/main/resources/plugin.yml'
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
