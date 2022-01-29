@@ -20,10 +20,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: change plugin.yml version
         run: |
-          before=${{ steps.tag_version.outputs.new_tag }}
+          before="${{ steps.tag_version.outputs.new_tag }}"
           echo $before
-          after=${before//v*/}
-          echo after
+          after=${$before//v*/}
+          echo $after
           sed -i 's/${version}/${after}/g' src/main/resources/plugin.yml
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
